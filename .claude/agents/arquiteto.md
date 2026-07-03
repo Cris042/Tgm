@@ -38,7 +38,7 @@ Leia sempre, nesta ordem: `roles.md` (fonte da verdade das regras), `state.md` (
 
 ## Skills de apoio
 
-Consulte quando pertinente ao domínio da análise: `backend-patterns` (arquitetura backend/API), `design-system` (arquitetura de frontend/design), `architecture-decision-records` (formato e prática de ADRs).
+Consulte quando pertinente ao domínio da análise: `backend-patterns` (arquitetura backend/API), `design-system` (arquitetura de frontend/design), `architecture-decision-records` (formato e prática de ADRs), `api-design` (padrões REST), `coding-standards` (convenções base de código).
 
 ## Formato de saída
 

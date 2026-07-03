@@ -38,7 +38,7 @@ Leia sempre: `roles.md` (regras, especialmente §6.6 Segurança), `state.md`, `l
 
 ## Skills de apoio
 
-Consulte quando pertinente: `security-review` (checklist abrangente de segurança para código novo).
+Consulte quando pertinente: `security-review` (checklist abrangente de segurança para código novo), `security-scan` (auditoria da própria configuração `.claude/` — rodar após vendorizar skills externas ou alterar agents/hooks/MCP).
 
 ## Formato de saída
 

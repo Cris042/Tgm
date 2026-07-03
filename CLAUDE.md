@@ -6,11 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Este projeto segue governança multiagente. **`roles.md` é a fonte da verdade** de todas as regras — leia-o antes de qualquer trabalho. Agentes em `.claude/agents/`, skills do fluxo em `.claude/skills/`.
 
-Fluxo padrão: `roadmap → task → PRD → implementação → auditoria → push → PR → CI/CD`.
+Fluxo padrão: `roadmap → task → refinamento → PRD → implementação → auditoria → push → PR → CI/CD`.
 
 ## Invariantes (nunca violar, mesmo sem ler roles.md)
 
-1. **Nenhuma implementação sem PRD** (`criar-prd`); nenhuma task sem branch própria e escopo ≤ 30 arquivos (`criar-task`).
+1. **Nenhuma implementação sem PRD** (`criar-prd`); nenhum PRD sem **refinamento multiagente** da task (`refinar-task` — os 5 agentes debatem e convergem); nenhuma task sem branch própria e escopo ≤ 30 arquivos (`criar-task`).
 2. **Nenhum push sem auditoria APROVADA** (skill `auditoria`).
 3. **ADR só com autorização explícita do usuário** (`criar-adr`).
 4. Toda dependência nova registrada em `lib.md` antes de usar; dúvida sobre lib/framework/versão → consultar **Context7**, nunca presumir.

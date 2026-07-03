@@ -38,7 +38,7 @@ Leia sempre: `roles.md` (regras, especialmente §6.7 Testes), `state.md`, o PRD 
 
 ## Skills de apoio
 
-Consulte quando pertinente: `tdd-workflow` (disciplina red-green-refactor e cobertura), `e2e-testing` (padrões Playwright, Page Object Model, testes flaky), `browser-qa` (validação visual pós-deploy), `benchmark` (testes de performance e regressão).
+Consulte quando pertinente: `tdd-workflow` (disciplina red-green-refactor e cobertura), `e2e-testing` (padrões Playwright, Page Object Model, testes flaky), `browser-qa` (validação visual pós-deploy), `benchmark` (testes de performance e regressão), `coding-standards` (qualidade de código no item 13 da auditoria).
 
 ## Formato de saída
 

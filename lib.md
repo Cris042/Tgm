@@ -16,4 +16,4 @@ Toda dependência do projeto é registrada aqui **antes** de entrar, com justifi
 
 ## Skills vendorizadas (não são dependências de código)
 
-Vendorizadas de [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT) em 2026-07-03, em `.claude/skills/`: `tdd-workflow`, `e2e-testing`, `github-ops`, `git-workflow`, `architecture-decision-records`. Atualização: re-baixar do repositório de origem e reaplicar o rodapé de crédito.
+Vendorizadas de [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT) em 2026-07-03, em `.claude/skills/`: `tdd-workflow`, `e2e-testing`, `github-ops`, `git-workflow`, `architecture-decision-records`, `coding-standards`, `api-design`, `error-handling`, `deployment-patterns`, `security-scan`. Atualização: re-baixar do repositório de origem e reaplicar o rodapé de crédito.

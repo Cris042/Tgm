@@ -19,19 +19,20 @@ Toda decisão técnica relevante deve considerar **benefícios, riscos, trade-of
 ## 2. Fluxo padrão de desenvolvimento
 
 ```
-roadmap → task → PRD → implementação → auditoria → push → PR → CI/CD
+roadmap → task → refinamento → PRD → implementação → auditoria → push → PR → CI/CD
 ```
 
 | Etapa | Produz | Consome | Regra-chave |
 |---|---|---|---|
 | 1. Roadmap | `docs/roadmap.md` | objetivos do projeto | épicos, prioridades, riscos, ordem sugerida |
 | 2. Task | `docs/tasks/NNNN-*.md` + branch | roadmap | escopo pequeno, máx. 30 arquivos (§6.3) |
-| 3. PRD | `docs/prd/NNNN-*.md` | task | nenhuma implementação sem PRD (§6.2) |
-| 4. Implementação | código + testes | PRD, ADRs | seguir padrões; atualizar `plan.md` (§6.11) |
-| 5. Auditoria | veredito APROVADO/REPROVADO | diff da branch, PRD, ADRs | obrigatória antes do push (§6.4) |
-| 6. Push | branch remota | auditoria aprovada | **nenhum push sem auditoria** |
-| 7. PR | Pull Request | template de PR | rastreável até task e PRD (§6.5) |
-| 8. CI/CD | pipeline verde | `.github/workflows/ci.yml` | executa todos os testes definidos |
+| 3. Refinamento | seção "Refinamento" na task | task, ADRs, pareceres dos 5 agentes | todos os agentes debatem e convergem (§6.14) |
+| 4. PRD | `docs/prd/NNNN-*.md` | task refinada | nenhuma implementação sem PRD (§6.2); incorpora as exigências do refinamento |
+| 5. Implementação | código + testes | PRD, ADRs | seguir padrões; atualizar `plan.md` (§6.11) |
+| 6. Auditoria | veredito APROVADO/REPROVADO | diff da branch, PRD, ADRs | obrigatória antes do push (§6.4) |
+| 7. Push | branch remota | auditoria aprovada | **nenhum push sem auditoria** |
+| 8. PR | Pull Request | template de PR | rastreável até task e PRD (§6.5) |
+| 9. CI/CD | pipeline verde | `.github/workflows/ci.yml` | executa todos os testes definidos |
 
 ---
 
@@ -47,6 +48,8 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 | **QA Engineer** | `qa.md` | estratégia de testes, cobertura mínima, idempotência | plano de testes do PRD, revisão de suíte, **sempre na auditoria** |
 | **Backend Developer** | `backend-dev.md` | implementação seguindo ADRs, PRD e diretrizes dos demais agentes | executar a implementação da task |
 
+**Todos os 5 agentes participam do refinamento de toda task** (§6.14) — cada um emite parecer do seu domínio antes do PRD.
+
 ---
 
 ## 4. Skills
@@ -56,6 +59,7 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 | Skill | Propósito | Obrigatória quando |
 |---|---|---|
 | `criar-task` | quebrar roadmap em tasks pequenas e rastreáveis | iniciar qualquer trabalho novo |
+| `refinar-task` | cerimônia de refinamento: os 5 agentes debatem a task e convergem | entre a task e o PRD (§6.14) |
 | `criar-prd` | detalhar a task antes de implementar | antes de toda implementação |
 | `criar-adr` | registrar decisão arquitetural relevante | decisão estrutural **com autorização do usuário** |
 | `criar-migration` | mudança estrutural de banco versionada | toda alteração de schema |
@@ -66,23 +70,27 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 
 | Agente | Skills de apoio |
 |---|---|
-| Arquiteto | `backend-patterns`, `design-system`, `architecture-decision-records`ᵛ |
-| SRE/DevOps | `docker-patterns`, `benchmark`, `postgres-patterns`, `github-ops`ᵛ (CI/releases) |
-| Security | `security-review` |
-| QA | `tdd-workflow`ᵛ, `e2e-testing`ᵛ, `browser-qa`, `benchmark` |
-| Backend Dev | `backend-patterns`, `postgres-patterns`, `jpa-patterns` (se Java), `tdd-workflow`ᵛ, `database-migrations`, `ui-ux-pro-max` (tarefas de UI) |
+| Arquiteto | `backend-patterns`, `design-system`, `architecture-decision-records`ᵛ, `api-design`ᵛ, `coding-standards`ᵛ |
+| SRE/DevOps | `docker-patterns`, `benchmark`, `postgres-patterns`, `github-ops`ᵛ (CI/releases), `deployment-patterns`ᵛ, `error-handling`ᵛ (resiliência) |
+| Security | `security-review`, `security-scan`ᵛ (audita a própria config `.claude/` — rodar após vendorizar skills ou alterar agents/hooks/MCP) |
+| QA | `tdd-workflow`ᵛ, `e2e-testing`ᵛ, `browser-qa`, `benchmark`, `coding-standards`ᵛ (item 13 da auditoria) |
+| Backend Dev | `backend-patterns`, `postgres-patterns`, `jpa-patterns` (se Java), `tdd-workflow`ᵛ, `database-migrations`, `error-handling`ᵛ, `api-design`ᵛ, `coding-standards`ᵛ, `ui-ux-pro-max` (tarefas de UI) |
 | fluxo-git (skill) | `git-workflow`ᵛ, `github-ops`ᵛ |
 
 ᵛ = vendorizada neste repositório em `.claude/skills/` a partir de [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT). As demais estão instaladas em nível de usuário (`~/.claude/skills/`) ou como plugin.
 
 ### 4.3 Skills opcionais (instalação manual, se necessário)
 
-Avaliadas e consideradas cobertas ou redundantes hoje; instalar via [mcpmarket.com](https://mcpmarket.com) apenas se surgir necessidade real:
+Avaliadas e consideradas cobertas, redundantes ou prematuras hoje; instalar apenas se surgir necessidade real:
 
-- `gh-issues-auto-fixer` — ciclo automático de issues→fix→PR; o essencial é coberto por `github-ops`.
-- `spec-driven-development` — este template já implementa SDD (task→PRD→gates).
-- `mp-pdf-data-extractor` — o Claude lê PDFs nativamente (tool Read).
-- `mp-sql-copilot` — parcialmente coberta por `postgres-patterns`.
+- `gh-issues-auto-fixer` (mcpmarket) — ciclo automático de issues→fix→PR; o essencial é coberto por `github-ops`.
+- `spec-driven-development` (mcpmarket) — este template já implementa SDD (task→refinamento→PRD→gates).
+- `mp-pdf-data-extractor` (mcpmarket) — o Claude lê PDFs nativamente (tool Read).
+- `mp-sql-copilot` (mcpmarket) — parcialmente coberta por `postgres-patterns`.
+- **Observabilidade de aplicação** — as skills disponíveis são específicas por plataforma ([bobmatnyc/claude-mpm-skills](https://github.com/bobmatnyc/claude-mpm-skills), MIT: Datadog, OTel-Golang, Vercel); vendorizar a adequada **quando a stack/plataforma for definida**. Até lá, os padrões do agente `sre-devops` (§6.8) governam.
+- `canary-watch` / `production-audit` (ECC) — verificação pós-deploy e prontidão de produção; vendorizar quando houver app deployada.
+- `codebase-onboarding` (ECC) — mapa de codebase existente; útil ao aplicar este template em repositório legado.
+- `hookify-rules` / `delivery-gate` (ECC) — candidatas para o enforcement técnico do gate de auditoria (§6.4.5), quando formos implementá-lo.
 
 ---
 
@@ -178,6 +186,14 @@ Avaliadas e consideradas cobertas ou redundantes hoje; instalar via [mcpmarket.c
 3. Conversas que produzirem insight além da task: salvar com `/obsidian-save`.
 4. A nota do projeto no vault (`Projects/<nome>.md`) deve refletir o estado real — atualizar `Recent Activity` e `Key Decisions` quando houver mudança relevante.
 5. O hook PostCompact já propaga automaticamente resumos de contexto para o vault; os comandos acima cobrem o registro deliberado.
+
+### 6.14 Refinamento multiagente (cerimônia obrigatória)
+1. **Toda task passa por refinamento antes do PRD** (skill `refinar-task`), simulando uma cerimônia de refinement.
+2. Os **5 agentes participam**, cada um com parecer do seu domínio: arquiteto (arquitetura/trade-offs), sre-devops (infra/observabilidade), security (riscos), qa (testes/aceite), backend-dev (viabilidade/esforço).
+3. Os pareceres são **confrontados em debate**: toda divergência é explicitada e resolvida citando as regras deste arquivo, ou — quando arquiteturalmente relevante e sem consenso — **escalada ao usuário**. Nunca decidir sozinho o que os agentes não convergirem.
+4. A conclusão é **registrada na task** (seção "Refinamento": pareceres, debate, conclusão, exigências para o PRD) — o PRD DEVE incorporar essas exigências.
+5. Perguntas escaladas ao usuário **bloqueiam o PRD** até resposta.
+6. O refinamento abre o ciclo de qualidade; a auditoria (§6.4) o fecha — um não substitui o outro.
 
 ---
 

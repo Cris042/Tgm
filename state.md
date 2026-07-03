@@ -18,6 +18,8 @@ Template de governança multiagente implantado. Projeto aguardando definição d
 - 2026-07-03 — Skills externas: 8 já instaladas em nível de usuário; 5 vendorizadas do ECC (MIT); 4 marcadas opcionais (roles.md §4.3).
 - 2026-07-03 — Vault Obsidian (`Documents/SecondBrain`) adotado como segundo cérebro do ciclo de dev (roles.md §6.13).
 - 2026-07-03 — Auditoria pré-push é convencional por ora; hook técnico registrado como evolução futura (roles.md §6.4.5).
+- 2026-07-03 — Análise de lacunas de skills: +5 vendorizadas do ECC (`coding-standards`, `api-design`, `error-handling`, `deployment-patterns`, `security-scan`); observabilidade fica por plataforma, adiada até a stack (roles.md §4.3).
+- 2026-07-03 — **Refinamento multiagente obrigatório** (usuário): toda task passa pelos 5 agentes, que debatem e convergem antes do PRD — skill `refinar-task` + regra §6.14; fluxo atualizado para 9 etapas.
 
 ## Pendências técnicas
 
@@ -40,3 +42,4 @@ Template de governança multiagente implantado. Projeto aguardando definição d
 | Data | Evento |
 |------|--------|
 | 2026-07-03 | Bootstrap: git init, roles.md, 5 agentes, 6 skills de fluxo, 5 skills vendorizadas, docs/, arquivos de controle, CI skeleton, CLAUDE.md reescrito. Vault Obsidian integrado (nota [[Tllm]] criada). |
+| 2026-07-03 | Análise de lacunas: +5 skills vendorizadas do ECC. Refinamento multiagente adicionado ao fluxo (skill `refinar-task`, regra §6.14). |

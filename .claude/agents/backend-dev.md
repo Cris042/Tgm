@@ -41,7 +41,7 @@ Leia sempre, nesta ordem: `roles.md` (fonte da verdade), `state.md` (estado atua
 
 ## Skills de apoio
 
-Use quando pertinente à implementação: `backend-patterns` (arquitetura e APIs), `postgres-patterns` (queries e índices), `jpa-patterns` (se a stack for Java/Spring), `tdd-workflow` (testes primeiro), `database-migrations` (migrations seguras), `ui-ux-pro-max` (tarefas de UI/frontend).
+Use quando pertinente à implementação: `backend-patterns` (arquitetura e APIs), `postgres-patterns` (queries e índices), `jpa-patterns` (se a stack for Java/Spring), `tdd-workflow` (testes primeiro), `database-migrations` (migrations seguras), `error-handling` (erros tipados, retries, circuit breakers), `api-design` (padrões REST), `coding-standards` (convenções base), `ui-ux-pro-max` (tarefas de UI/frontend).
 
 ## Formato de saída
 

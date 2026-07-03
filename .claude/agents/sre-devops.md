@@ -37,7 +37,7 @@ Leia sempre: `roles.md` (regras, especialmente §6.8 Observabilidade), `state.md
 
 ## Skills de apoio
 
-Consulte quando pertinente: `docker-patterns` (compose, redes, volumes, segurança de containers), `benchmark` (medição de performance e regressões), `postgres-patterns` (otimização de queries e índices), `github-ops` (operações de CI/releases no GitHub).
+Consulte quando pertinente: `docker-patterns` (compose, redes, volumes, segurança de containers), `benchmark` (medição de performance e regressões), `postgres-patterns` (otimização de queries e índices), `github-ops` (operações de CI/releases no GitHub), `deployment-patterns` (pipelines, health checks, rollback), `error-handling` (retries, circuit breakers, resiliência).
 
 ## Formato de saída
 

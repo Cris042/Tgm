@@ -10,12 +10,13 @@ Detalha uma task antes da implementação. O PRD orienta e delimita: nada é imp
 ## Pré-requisitos
 
 1. A task existe em `docs/tasks/` (senão, rode `criar-task` antes).
-2. Você leu `roles.md`, `state.md` e os ADRs ativos que tocam o tema.
+2. A task foi **refinada** — tem a seção "Refinamento" com a conclusão dos 5 agentes (senão, rode `refinar-task` antes; roles.md §6.14). Perguntas escaladas ao usuário no refinamento bloqueiam o PRD até resposta.
+3. Você leu `roles.md`, `state.md` e os ADRs ativos que tocam o tema.
 
 ## Passo a passo
 
 1. Use o mesmo número da task: `docs/prd/NNNN-titulo-kebab.md` (task e PRD compartilham o `NNNN`).
-2. Copie o template `template-prd.md` (nesta pasta) e preencha todas as seções.
+2. Copie o template `template-prd.md` (nesta pasta) e preencha todas as seções, **incorporando as exigências da seção "Refinamento" da task** (obrigatório — roles.md §6.14.4).
 3. Seja específico em **Arquivos que serão criados/modificados** — a auditoria compara o diff real contra esta lista.
 4. Consulte agentes conforme o tema: `arquiteto` (impactos técnicos), `qa` (plano de testes), `security` (riscos), `sre-devops` (observabilidade/infra).
 5. Dependência nova prevista? Justifique no PRD e planeje o registro em `lib.md` (roles.md §6.9).

@@ -2,16 +2,27 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+## Governança
 
-Tllm is a minimal Maven Java project (IntelliJ IDEA scaffold) targeting **Java 25**. It currently contains a single class, `org.example.Main`, and uses Java 25 language features: a compact `static void main()` (no `String[] args`) and `java.lang.IO.println` (JEP 512), so a JDK 25+ is required to compile or run.
+Este projeto segue governança multiagente. **`roles.md` é a fonte da verdade** de todas as regras — leia-o antes de qualquer trabalho. Agentes em `.claude/agents/`, skills do fluxo em `.claude/skills/`.
 
-## Environment & Commands
+Fluxo padrão: `roadmap → task → PRD → implementação → auditoria → push → PR → CI/CD`.
 
-- The repo lives on a Windows filesystem but is worked on from WSL. In WSL, JDK 25 (Corretto, via SDKMAN) is available, but **`mvn` is not on the PATH and there is no Maven wrapper** — the project is normally built/run from IntelliJ on Windows.
-- Run directly with the JDK (works without Maven, using single-file source launch):
-  ```
-  java src/main/java/org/example/Main.java
-  ```
-- If Maven is available: `mvn compile` to build. There is no exec or test framework configured — the pom declares no dependencies or plugins, only compiler source/target 25.
-- No tests exist yet (`src/test/java` is empty). Adding tests requires first adding a test dependency (e.g., JUnit) to `pom.xml`.
+## Invariantes (nunca violar, mesmo sem ler roles.md)
+
+1. **Nenhuma implementação sem PRD** (`criar-prd`); nenhuma task sem branch própria e escopo ≤ 30 arquivos (`criar-task`).
+2. **Nenhum push sem auditoria APROVADA** (skill `auditoria`).
+3. **ADR só com autorização explícita do usuário** (`criar-adr`).
+4. Toda dependência nova registrada em `lib.md` antes de usar; dúvida sobre lib/framework/versão → consultar **Context7**, nunca presumir.
+5. Manter `plan.md` atualizado durante a task e `state.md` ao concluir; ao fim de cada task, registrar a sessão no vault Obsidian (`/obsidian-log` + `/obsidian-decide`, roles.md §6.13).
+
+> Nota: `plan.md` na raiz é o plano da task corrente **do projeto** — não confundir com o plan mode do Claude Code.
+
+## Scaffold atual (placeholder)
+
+O template é **stack-agnóstico**; o código presente é um scaffold IntelliJ Maven **Java 25** descartável (`org.example.Main` usa JEP 512: `static void main()` sem args e `java.lang.IO.println` — exige JDK 25+).
+
+- Executar: `java src/main/java/org/example/Main.java` (single-file source launch; funciona sem Maven).
+- No WSL há JDK 25 (Corretto/SDKMAN), mas **não há `mvn` no PATH nem wrapper** — o build Maven é feito pelo IntelliJ no Windows. Com Maven disponível: `mvn compile`.
+- `pom.xml` não tem dependências nem plugins; `src/test/java` está vazio — testes exigem adicionar framework ao `pom.xml` primeiro (registrar em `lib.md`).
+- Quando a stack for definida (roadmap item 2), este scaffold pode ser substituído.

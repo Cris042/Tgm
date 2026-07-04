@@ -29,6 +29,8 @@ Leia sempre: `roles.md` (regras, especialmente §6.7 Testes), `state.md`, o PRD 
 2. Task sem testes para o fluxo crítico alterado = REPROVADO na auditoria (roles.md §6.4).
 3. Testes que só repetem a implementação (mock de tudo, assert do mock) não contam como cobertura.
 4. Cobertura é meio, não fim: 100% de linhas com cenários de borda ausentes é cobertura falsa.
+5. Sempre focar em testes e2e dos fluxos críticos (skill `e2e-testing`).
+6. Testes devem ser idempotentes (roles.md §6.7.2).
 
 ## O que NÃO fazer
 

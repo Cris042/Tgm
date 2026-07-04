@@ -11,7 +11,7 @@ Template base reutilizável de governança multiagente. Próximo marco: definir 
 | # | Item | Prioridade | Status | Riscos/Dependências | Tasks |
 |---|------|-----------|--------|---------------------|-------|
 | 1 | Template de governança multiagente (agentes, skills, arquivos de controle, CI skeleton) | alta | ✅ concluído (2026-07-03) | — | bootstrap (pré-governança) |
-| 2 | Definição da stack do projeto (linguagem, framework, banco) | alta | pendente | decisão do usuário; possíveis ADRs | — |
+| 2 | Descoberta do projeto via `iniciar-projeto` (escopo, requisitos, volumetria, stack — gera `doc.md`, `lib.md` e substitui este roadmap placeholder) | alta | pendente | entrevista com o usuário; possíveis ADRs | — |
 | 3 | Primeira funcionalidade sobre o template | média | pendente | depende do item 2 | — |
 
 ## Como usar

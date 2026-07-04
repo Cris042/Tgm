@@ -19,11 +19,12 @@ Toda decisão técnica relevante deve considerar **benefícios, riscos, trade-of
 ## 2. Fluxo padrão de desenvolvimento
 
 ```
-roadmap → task → refinamento → PRD → implementação → auditoria → push → PR → CI/CD
+descoberta → roadmap → task → refinamento → PRD → implementação → auditoria → push → PR → CI/CD
 ```
 
 | Etapa | Produz | Consome | Regra-chave |
 |---|---|---|---|
+| 0. Descoberta | `doc.md` + `lib.md` e `docs/roadmap.md` iniciais | entrevista com o usuário + pareceres dos 5 agentes | todo projeto começa aqui (§6.15) |
 | 1. Roadmap | `docs/roadmap.md` | objetivos do projeto | épicos, prioridades, riscos, ordem sugerida |
 | 2. Task | `docs/tasks/NNNN-*.md` + branch | roadmap | escopo pequeno, máx. 30 arquivos (§6.3) |
 | 3. Refinamento | seção "Refinamento" na task | task, ADRs, pareceres dos 5 agentes | todos os agentes debatem e convergem (§6.14) |
@@ -58,6 +59,7 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 
 | Skill | Propósito | Obrigatória quando |
 |---|---|---|
+| `iniciar-projeto` | descoberta/kickoff: entrevista profunda + análise multiagente; gera `doc.md`, `lib.md` e `docs/roadmap.md` iniciais | todo início de projeto, antes do roadmap (§6.15) |
 | `criar-task` | quebrar roadmap em tasks pequenas e rastreáveis | iniciar qualquer trabalho novo |
 | `refinar-task` | cerimônia de refinamento: os 5 agentes debatem a task e convergem | entre a task e o PRD (§6.14) |
 | `criar-prd` | detalhar a task antes de implementar | antes de toda implementação |
@@ -74,7 +76,7 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 | SRE/DevOps | `docker-patterns`, `benchmark`, `postgres-patterns`, `github-ops`ᵛ (CI/releases), `deployment-patterns`ᵛ, `error-handling`ᵛ (resiliência) |
 | Security | `security-review`, `security-scan`ᵛ (audita a própria config `.claude/` — rodar após vendorizar skills ou alterar agents/hooks/MCP) |
 | QA | `tdd-workflow`ᵛ, `e2e-testing`ᵛ, `browser-qa`, `benchmark`, `coding-standards`ᵛ (item 13 da auditoria) |
-| Backend Dev | `backend-patterns`, `postgres-patterns`, `jpa-patterns` (se Java), `tdd-workflow`ᵛ, `database-migrations`, `error-handling`ᵛ, `api-design`ᵛ, `coding-standards`ᵛ, `ui-ux-pro-max` (tarefas de UI) |
+| Backend Dev | `backend-patterns`, `postgres-patterns`, `tdd-workflow`ᵛ, `database-migrations`, `error-handling`ᵛ, `api-design`ᵛ, `coding-standards`ᵛ, `ui-ux-pro-max` (tarefas de UI) |
 | fluxo-git (skill) | `git-workflow`ᵛ, `github-ops`ᵛ |
 
 ᵛ = vendorizada neste repositório em `.claude/skills/` a partir de [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT). As demais estão instaladas em nível de usuário (`~/.claude/skills/`) ou como plugin.
@@ -99,6 +101,7 @@ Avaliadas e consideradas cobertas, redundantes ou prematuras hoje; instalar apen
 | Arquivo | Conteúdo | Quem atualiza | Quando |
 |---|---|---|---|
 | `roles.md` | política completa (este arquivo) | sessão principal, com aval do usuário | a cada regra estrutural nova |
+| `doc.md` | mini-UML da aplicação: visão, atores, componentes, domínio, fluxos críticos, RNFs, volumetria, trade-offs | sessão principal, com aval do usuário | criado na descoberta (§6.15); atualizado quando arquitetura/domínio/fluxo crítico mudar |
 | `lib.md` | registro de dependências e versões | quem adiciona dependência | **toda** nova dependência (§6.9) |
 | `state.md` | estado atual + histórico recente | sessão principal | fim de cada task e antes do PR |
 | `plan.md` | plano vivo da task em andamento | sessão principal durante implementação | continuamente durante a task |
@@ -169,6 +172,7 @@ Avaliadas e consideradas cobertas, redundantes ou prematuras hoje; instalar apen
 1. Toda alteração estrutural de banco tem migration versionada — nunca alterar schema manualmente.
 2. Migration vinculada à task e ao PRD; rollback definido quando aplicável; idempotente quando possível.
 3. Validada localmente (docker-compose) ou nos testes antes do push.
+4. **Boas práticas de SQL são critério de aprovação** (detalhes em `.claude/skills/criar-migration/boas-praticas-sql.md`): toda FK nova indexada; índices justificados pelos padrões de acesso do PRD; queries de fluxo crítico validadas com `EXPLAIN` — **sem full scan não justificado em tabela grande**; operações compatíveis com zero-downtime (índice concorrente, constraint `NOT VALID`+`VALIDATE`, backfill em lotes, expand-contract) quando houver ambiente com tráfego.
 
 ### 6.11 Arquivos de controle
 1. `plan.md` atualizado **durante** a implementação — reflete o estado real da task.
@@ -194,6 +198,16 @@ Avaliadas e consideradas cobertas, redundantes ou prematuras hoje; instalar apen
 4. A conclusão é **registrada na task** (seção "Refinamento": pareceres, debate, conclusão, exigências para o PRD) — o PRD DEVE incorporar essas exigências.
 5. Perguntas escaladas ao usuário **bloqueiam o PRD** até resposta.
 6. O refinamento abre o ciclo de qualidade; a auditoria (§6.4) o fecha — um não substitui o outro.
+
+### 6.15 Descoberta de projeto (cerimônia de abertura)
+
+1. **Todo projeto novo começa pela skill `iniciar-projeto`**, antes do roadmap — nenhum roadmap sem descoberta.
+2. A entrevista cobre no mínimo: nome do projeto, escopo, requisitos funcionais e não funcionais, volumetria, orçamento, atores, público-alvo, dependências/integrações, arquitetura, stack e infra (banco de perguntas na pasta da skill). Máximo de perguntas: profundidade é obrigação, não cortesia.
+3. **As escolhas do usuário são confrontadas**: os 5 agentes analisam o dossiê e todo trade-off relevante é apresentado antes da decisão. A palavra final é do usuário; escolhas que contrariem recomendação são registradas no `doc.md` com o trade-off aceito.
+4. A descoberta produz obrigatoriamente: `doc.md` (mini-UML da aplicação), `lib.md` inicial e `docs/roadmap.md` inicial (incluindo a metodologia).
+5. Stack e dependências candidatas são validadas no Context7 (§6.12) antes de entrar no `lib.md`, marcadas como `planejada` até entrarem no build.
+6. Decisões arquiteturais relevantes viram **candidatas a ADR** listadas no `doc.md` — a criação continua exigindo autorização explícita (§6.1).
+7. Ao final: `state.md` atualizado e sessão registrada no vault (§6.13).
 
 ---
 

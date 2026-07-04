@@ -1,4 +1,4 @@
-# Tllm — Template de Governança Multiagente
+# TGM — Template de Governança Multiagente
 
 Template base **reutilizável e stack-agnóstico** de governança técnica para projetos desenvolvidos com Claude Code. O produto deste repositório é a governança: agentes especializados, skills de fluxo, gates de qualidade e rastreabilidade completa do ciclo de desenvolvimento — do levantamento de escopo ao CI/CD.
 

@@ -92,3 +92,25 @@ Roteiro da entrevista da skill `iniciar-projeto`. Conduzir na ordem, em blocos d
 6. **Arquivos/mídia**: upload, armazenamento (S3-like), processamento de imagem/vídeo?
 7. O projeto **expõe API para terceiros**? (versionamento, rate limit, documentação — skill `api-design`)
 8. Alguma integração é **crítica para o MVP** (bloqueia o lançamento se atrasar)?
+
+## Bloco I — Observabilidade e resiliência (etapa SRE)
+
+> Etapa conduzida com o agente `sre-devops` — o sistema nasce observável (roles.md §6.8). As respostas dos blocos C (RNFs), D (volumetria) e E (orçamento) alimentam este bloco.
+
+1. Quais **ferramentas de observabilidade**? Apresente os cenários com custo × esforço:
+   - self-hosted: Prometheus + Grafana (métricas), Loki ou ELK (logs), Tempo/Jaeger (traces), OpenTelemetry como padrão de instrumentação
+   - SaaS: Datadog, New Relic, Grafana Cloud (validar custo contra o budget do bloco E)
+   - mínimo viável: logs estruturados + métricas do runtime + healthchecks (para MVPs de baixa volumetria)
+2. Quais **métricas importam**?
+   - técnicas: golden signals (latência, tráfego, erros, saturação) e RED por endpoint (rate, errors, duration); USE para recursos (CPU, memória, disco, pool de conexões)
+   - de **negócio**: quais eventos medem sucesso (ex.: pedidos/min, cadastros, conversão)?
+3. **SLOs**: quais objetivos mensuráveis derivam dos RNFs do bloco C (ex.: p95 < 300 ms, taxa de erro < 1%)? Haverá error budget?
+4. **Logs — como serão monitorados**: formato estruturado (JSON) com correlation/trace ID em toda requisição? Níveis por ambiente? O que NUNCA logar (PII, tokens — roles.md §6.6)? Onde agregar e por quanto tempo reter?
+5. **Alertas e dashboards**: o que acorda alguém de madrugada × o que vira ticket? Canal de alerta? Quais dashboards essenciais no dia 1?
+6. **Tracing distribuído** é necessário desde o início (múltiplos serviços/filas conversando) ou correlation ID no monolito basta?
+7. Quais **padrões de resiliência e consistência** o domínio exige?
+   - transações que cruzam serviços/integrações → **saga** (coreografada × orquestrada) com **compensação/rollback definido por passo** — sem compensação escrita, a saga não existe
+   - chamadas externas → **timeout + retry com backoff + circuit breaker** (skill `error-handling`)
+   - mensageria/async → **outbox pattern**, **DLQ** e **idempotência de consumidores**
+   - rollback de deploy → estratégia (blue/green, canary, feature flag) alinhada a migrations expand-contract (roles.md §6.10.4)
+8. **Healthchecks**: liveness × readiness — o que cada um valida (banco? fila? dependência externa)?

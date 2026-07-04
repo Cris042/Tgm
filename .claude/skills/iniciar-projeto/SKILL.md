@@ -37,6 +37,7 @@ Conduza os blocos de `perguntas.md` **na ordem**, via `AskUserQuestion` (multiSe
 | F | Stack — linguagem, framework, banco, cache, mensageria |
 | G | Arquitetura e infra — estilo arquitetural, cloud, containers, CI/CD, ambientes |
 | H | Dependências e integrações — APIs de terceiros, auth, pagamentos, notificações |
+| I | Observabilidade e resiliência (etapa SRE) — ferramentas, métricas/SLOs, monitoramento de logs, alertas, padrões (saga/compensação, retry, circuit breaker, outbox/DLQ, rollback de deploy) |
 
 ### Fase 2 — Análise multiagente (paralelo)
 
@@ -45,7 +46,7 @@ Envie o dossiê consolidado aos 4 agentes consultivos **em paralelo**:
 | Agente | Análise esperada |
 |---|---|
 | `arquiteto` | arquitetura proposta vs alternativas, trade-offs, aderência stack↔volumetria, risco de overengineering, candidatas a ADR |
-| `sre-devops` | infra mínima viável dentro do orçamento, custo mensal estimado, observabilidade desde o dia 1, CI/CD, ambientes |
+| `sre-devops` | infra mínima viável dentro do orçamento, custo mensal estimado, **plano de observabilidade** (ferramentas, métricas/SLOs, logs, alertas — valida o bloco I), padrões de resiliência (saga/compensação, retry, DLQ) proporcionais à volumetria, CI/CD, ambientes |
 | `security` | riscos, dados sensíveis, compliance (LGPD etc.), estratégia de authn/authz, CVEs das libs candidatas |
 | `qa` | testabilidade dos requisitos, critérios de aceite mensuráveis, estratégia de testes por camada, riscos de qualidade |
 
@@ -70,7 +71,8 @@ Cada parecer deve terminar com: **recomendações**, **pontos a confrontar com o
 
 ## Checklist final
 
-- [ ] Blocos A–H cobertos (ou irrelevância confirmada pelo usuário, registrada no dossiê)
+- [ ] Blocos A–I cobertos (ou irrelevância confirmada pelo usuário, registrada no dossiê)
+- [ ] Plano de observabilidade e padrões de resiliência definidos e proporcionais à volumetria (bloco I — anti-overengineering vale aqui também)
 - [ ] Os 5 agentes analisaram o dossiê e emitiram parecer
 - [ ] Toda divergência confrontada com o usuário; trade-offs aceitos registrados
 - [ ] `doc.md` criado com o mini-UML completo (diagramas Mermaid renderizáveis)

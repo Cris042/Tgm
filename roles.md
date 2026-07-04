@@ -68,7 +68,7 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 | `auditoria` | gate de qualidade pré-push (13 itens) | **antes de todo push** |
 | `fluxo-git` | branches, commits, PR padronizados | todo trabalho com git |
 
-### 4.2 Skills de apoio por agente (externas, já instaladas ou vendorizadas)
+### 4.2 Skills de apoio por agente (todas vendorizadas neste repositório)
 
 | Agente | Skills de apoio |
 |---|---|
@@ -79,7 +79,7 @@ Definidos em `.claude/agents/`. Invocação: pedir explicitamente ("consulte o a
 | Backend Dev | `backend-patterns`, `postgres-patterns`, `tdd-workflow`ᵛ, `database-migrations`, `error-handling`ᵛ, `api-design`ᵛ, `coding-standards`ᵛ, `ui-ux-pro-max` (tarefas de UI) |
 | fluxo-git (skill) | `git-workflow`ᵛ, `github-ops`ᵛ |
 
-ᵛ = vendorizada neste repositório em `.claude/skills/` a partir de [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT). As demais estão instaladas em nível de usuário (`~/.claude/skills/`) ou como plugin.
+**Todas as skills de apoio estão vendorizadas em `.claude/skills/`** — o repositório é autossuficiente ao clonar (decisão de 2026-07-04; origem e créditos registrados no `lib.md`). O marcador ᵛ é histórico (primeiro lote vendorizado do ECC). Única exceção: `ui-ux-pro-max` é plugin, declarado em `.claude/settings.json` (marketplace + enabledPlugins) e instalado ao confiar no projeto.
 
 ### 4.3 Skills opcionais (instalação manual, se necessário)
 
@@ -189,7 +189,7 @@ Avaliadas e consideradas cobertas, redundantes ou prematuras hoje; instalar apen
 2. **Ao final de cada task** (junto com a atualização do `state.md`): registrar a sessão no vault (`/obsidian-log`) e as decisões relevantes (`/obsidian-decide`).
 3. Conversas que produzirem insight além da task: salvar com `/obsidian-save`.
 4. A nota do projeto no vault (`Projects/<nome>.md`) deve refletir o estado real — atualizar `Recent Activity` e `Key Decisions` quando houver mudança relevante.
-5. O hook PostCompact já propaga automaticamente resumos de contexto para o vault; os comandos acima cobrem o registro deliberado.
+5. **Hooks de sessão do repositório** (`.claude/settings.json` → `.claude/hooks/`): `SessionEnd` grava automaticamente o resumo da sessão no vault (Dev Log + propagação) e `SessionStart` injeta o contexto do projeto ao abrir o chat. Exigem `OBSIDIAN_VAULT_PATH` no ambiente da máquina — sem ele ficam inertes, sem erro. Kill switch: `OBSIDIAN_SESSION_SUMMARY_ENABLED=0`. O hook PostCompact (nível de usuário, opt-in via `OBSIDIAN_BG_AGENT_ENABLED`) é complementar. Os comandos acima cobrem o registro deliberado.
 
 ### 6.14 Refinamento multiagente (cerimônia obrigatória)
 1. **Toda task passa por refinamento antes do PRD** (skill `refinar-task`), simulando uma cerimônia de refinement.
@@ -202,7 +202,7 @@ Avaliadas e consideradas cobertas, redundantes ou prematuras hoje; instalar apen
 ### 6.15 Descoberta de projeto (cerimônia de abertura)
 
 1. **Todo projeto novo começa pela skill `iniciar-projeto`**, antes do roadmap — nenhum roadmap sem descoberta.
-2. A entrevista cobre no mínimo: nome do projeto, escopo, requisitos funcionais e não funcionais, volumetria, orçamento, atores, público-alvo, dependências/integrações, arquitetura, stack e infra (banco de perguntas na pasta da skill). Máximo de perguntas: profundidade é obrigação, não cortesia.
+2. A entrevista cobre no mínimo: nome do projeto, escopo, requisitos funcionais e não funcionais, volumetria, orçamento, atores, público-alvo, dependências/integrações, arquitetura, stack, infra e **observabilidade/resiliência** (etapa SRE — ferramentas, métricas/SLOs, logs, alertas, padrões saga/compensação/retry/DLQ/rollback; bloco I do banco de perguntas). Máximo de perguntas: profundidade é obrigação, não cortesia.
 3. **As escolhas do usuário são confrontadas**: os 5 agentes analisam o dossiê e todo trade-off relevante é apresentado antes da decisão. A palavra final é do usuário; escolhas que contrariem recomendação são registradas no `doc.md` com o trade-off aceito.
 4. A descoberta produz obrigatoriamente: `doc.md` (mini-UML da aplicação), `lib.md` inicial e `docs/roadmap.md` inicial (incluindo a metodologia).
 5. Stack e dependências candidatas são validadas no Context7 (§6.12) antes de entrar no `lib.md`, marcadas como `planejada` até entrarem no build.

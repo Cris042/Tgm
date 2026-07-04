@@ -16,4 +16,10 @@ Toda dependência do projeto é registrada aqui **antes** de entrar, com justifi
 
 ## Skills vendorizadas (não são dependências de código)
 
-Vendorizadas de [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT) em 2026-07-03, em `.claude/skills/`: `tdd-workflow`, `e2e-testing`, `github-ops`, `git-workflow`, `architecture-decision-records`, `coding-standards`, `api-design`, `error-handling`, `deployment-patterns`, `security-scan`. Atualização: re-baixar do repositório de origem e reaplicar o rodapé de crédito.
+Todas em `.claude/skills/` — o repositório é autossuficiente ao clonar.
+
+- **De [affaan-m/ECC](https://github.com/affaan-m/ECC) (MIT), 2026-07-03**: `tdd-workflow`, `e2e-testing`, `github-ops`, `git-workflow`, `architecture-decision-records`, `coding-standards`, `api-design`, `error-handling`, `deployment-patterns`, `security-scan`.
+- **Migradas do nível de usuário em 2026-07-04** (frontmatter `origin: ECC`): `postgres-patterns`, `docker-patterns`, `database-migrations`, `benchmark`, `browser-qa`, `design-system`, `jpa-patterns`.
+- **Migradas do nível de usuário em 2026-07-04** (sem marcador de origem no frontmatter; procedência provável ECC, não confirmada): `backend-patterns`, `frontend-patterns`, `security-review`.
+
+Atualização: re-baixar do repositório de origem e reaplicar o rodapé de crédito. Plugin `ui-ux-pro-max` declarado em `.claude/settings.json` (marketplace GitHub `nextlevelbuilder/ui-ux-pro-max-skill`).

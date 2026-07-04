@@ -122,3 +122,43 @@ Decisões arquiteturais relevantes identificadas na descoberta — criar apenas 
 | Integração | Criticidade | SLA/custo | Risco |
 |---|---|---|---|
 | [API Y] | [bloqueia MVP?] | | |
+
+## 13. Observabilidade e resiliência
+
+### Ferramentas
+
+| Sinal | Ferramenta | Custo estimado |
+|---|---|---|
+| Métricas | [ex.: Prometheus + Grafana] | |
+| Logs | [ex.: Loki / ELK] | |
+| Traces | [ex.: OTel + Tempo / correlation ID apenas] | |
+| Alertas | [ex.: Alertmanager → canal X] | |
+
+### Métricas-chave e SLOs
+
+| Métrica | Tipo | Alvo/SLO |
+|---|---|---|
+| [p95 endpoint principal] | técnica (RED) | [< X ms] |
+| [taxa de erro] | técnica | [< X%] |
+| [evento de negócio] | negócio | [meta] |
+
+### Logs
+
+- **Formato:** [JSON estruturado com correlation/trace ID]
+- **Nunca logar:** PII, tokens, credenciais (roles.md §6.6)
+- **Agregação e retenção:** [onde, por quanto tempo]
+- **Dashboards do dia 1:** [lista]
+
+### Padrões de resiliência adotados
+
+| Padrão | Onde se aplica | Compensação/rollback |
+|---|---|---|
+| [saga orquestrada] | [fluxo X entre serviços A→B] | [passo a passo da compensação] |
+| [retry + circuit breaker] | [chamadas à API Y] | [timeout, backoff, fallback] |
+| [outbox + DLQ + idempotência] | [eventos de Z] | [reprocessamento] |
+| [rollback de deploy] | [blue/green / canary] | [alinhado a expand-contract §6.10.4] |
+
+### Healthchecks
+
+- **Liveness:** [o que valida]
+- **Readiness:** [o que valida — banco, fila, dependência crítica]
